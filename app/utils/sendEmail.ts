@@ -1,4 +1,3 @@
-import { WelcomeEmail } from "@/emails/WelcomeEmail";
 import { Resend } from "resend";
 import * as React from "react";
 
@@ -23,31 +22,31 @@ const resend = new Resend(process.env.RESEND_API_KEY);
  *     ...otherTemplateProps
  *   })
  */
-export async function sendEmail<TemplateProps extends Record<string, any>>(
-  args: {
-    from: string;
-    to: string | string[];
-    subject: string;
-    EmailComponent: (props: TemplateProps) => React.ReactElement;
-  } & TemplateProps
+export async function sendEmail<TemplateProps extends Record<string, unknown>>(
+	args: {
+		from: string;
+		to: string | string[];
+		subject: string;
+		EmailComponent: (props: TemplateProps) => React.ReactElement;
+	} & TemplateProps
 ) {
-  const { from, to, subject, EmailComponent, ...templateProps } = args;
-  try {
-    const { data, error } = await resend.emails.send({
-      from,
-      to: Array.isArray(to) ? to : [to],
-      subject,
-      react: EmailComponent(templateProps as unknown as TemplateProps),
-    });
-    if (error) {
-      return { error };
-    }
-    return { data };
-  } catch (error) {
-    return { error };
-  }
+	const { from, to, subject, EmailComponent, ...templateProps } = args;
+	try {
+		const { data, error } = await resend.emails.send({
+			from,
+			to: Array.isArray(to) ? to : [to],
+			subject,
+			react: EmailComponent(templateProps as unknown as TemplateProps),
+			replyTo: "theolowuayo@gmail.com",
+		});
+		if (error) {
+			return { error };
+		}
+		return { data };
+	} catch (error) {
+		return { error };
+	}
 }
-
 
 // Example usage (can be removed or kept as reference):
 // await sendEmail({
@@ -57,4 +56,3 @@ export async function sendEmail<TemplateProps extends Record<string, any>>(
 //   EmailComponent: WelcomeEmail,
 //   name: 'John', // <-- props specific to WelcomeEmail
 // })
-

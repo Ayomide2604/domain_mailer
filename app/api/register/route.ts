@@ -11,8 +11,6 @@ const schema = z.object({
 	password: z.string().min(5),
 });
 export async function POST(request: NextRequest) {
-	console.log("RESEND_API_KEY:", process.env.RESEND_API_KEY);
-
 	const body = await request.json();
 	const validation = schema.safeParse(body);
 	if (!validation.success)
@@ -49,7 +47,7 @@ export async function POST(request: NextRequest) {
 			});
 
 			if (emailResult.error) {
-				throw new Error("Failed to send welcome email: " + emailResult.error.message);
+				throw new Error("Failed to send welcome email: " + emailResult.error);
 			}
 
 			return createdUser;
@@ -65,10 +63,14 @@ export async function POST(request: NextRequest) {
 			},
 			{ status: 201 }
 		);
-	} catch (error: any) {
+	} catch (error: unknown) {
+		let message = "Registration failed.";
+		if (error instanceof Error) {
+			message = error.message;
+		}
 		return NextResponse.json(
 			{
-				message: error.message || "Registration failed.",
+				message,
 				error,
 			},
 			{ status: 500 }
