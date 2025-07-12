@@ -4,6 +4,7 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { sendEmail } from "@/app/utils/sendEmail";
 import { WelcomeEmail } from "@/emails/WelcomeEmail";
+import { toast } from "sonner";
 
 const schema = z.object({
 	name: z.string().min(3),
@@ -25,7 +26,10 @@ export async function POST(request: NextRequest) {
 	});
 
 	if (user)
-		return NextResponse.json({ error: "User Already exists" }, { status: 400 });
+		return NextResponse.json(
+			{ message: "User Already exists" },
+			{ status: 400 }
+		);
 	const hashedPassword = await bcrypt.hash(password, 10);
 
 	try {
@@ -63,17 +67,9 @@ export async function POST(request: NextRequest) {
 			},
 			{ status: 201 }
 		);
-	} catch (error: unknown) {
-		let message = "Registration failed.";
+	} catch (error: any) {
 		if (error instanceof Error) {
-			message = error.message;
+			return NextResponse.json({ error }, { status: 500 });
 		}
-		return NextResponse.json(
-			{
-				message,
-				error,
-			},
-			{ status: 500 }
-		);
 	}
 }

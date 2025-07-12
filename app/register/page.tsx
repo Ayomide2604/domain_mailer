@@ -27,13 +27,15 @@ const RegisterPage = () => {
 		};
 		try {
 			const response = await axios.post("/api/register", data);
-			if (response.status === 201) {
+			if (response.status === 201)
 				toast.success("user registration successful");
-				router.push("/login");
+			router.push("/login");
+		} catch (error: any) {
+			if (error.response.status === 400) {
+				toast.error(error.response.data.message);
+			} else {
+				toast.error("An Unexpected Error Occurred");
 			}
-		} catch (error) {
-			console.error(error);
-			toast.error("Failed to register");
 		}
 	};
 	return (
