@@ -8,7 +8,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "./css/boxicons.css";
 import "./css/style.css";
 // components
-import BootstrapClient from "./BootstrapClient";
+import BootstrapClient from "./utils/BootstrapClient";
 import Header from "./Header";
 import BackToTop from "./components/BackToTop";
 import AuthProvider from "./Provider";
