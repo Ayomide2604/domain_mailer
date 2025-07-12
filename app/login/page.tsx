@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
+import { toast } from "sonner";
 
 const LoginPage = () => {
 	const router = useRouter();
@@ -19,9 +19,10 @@ const LoginPage = () => {
 		});
 
 		if (response?.ok) {
+			toast.success("login successful");
 			router.push("/");
 		} else {
-			alert("Invalid email or password");
+			toast.error("Invalid email or password");
 		}
 	};
 
