@@ -10,8 +10,8 @@ const Footer = () => {
 				<div className="row pb-5">
 					<div className="col-lg-4 col-md-6">
 						<div className="navbar-brand text-dark p-0 me-0 mb-3 mb-lg-4">
-							<img src="assets/img/logo.svg" width={47} alt="Silicon" />
-							Silicon
+							{/* <img src="assets/img/logo.svg" width={47} alt="Silicon" /> */}
+							Mailer
 						</div>
 						<p className="fs-sm text-light opacity-70 pb-lg-3 mb-4">
 							Proin ipsum pharetra, senectus eget scelerisque varius pretium
@@ -29,7 +29,7 @@ const Footer = () => {
 									id="subscr-email"
 									className="form-control rounded-start ps-5"
 									placeholder="Your email"
-									required=""
+									required
 								/>
 								<i className="bx bx-envelope fs-lg text-muted position-absolute top-50 start-0 translate-middle-y ms-3 zindex-5" />
 								<div className="invalid-tooltip position-absolute top-100 start-0">

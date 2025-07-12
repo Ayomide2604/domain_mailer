@@ -5,6 +5,9 @@ import defaultProfile from "../images/default_profile.svg";
 import ThemeToggleButton from "./ThemeToggleButton";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface User {
 	name: string;
@@ -14,6 +17,14 @@ interface User {
 const Header = () => {
 	const { data: session } = useSession();
 	const user = session?.user as User;
+	const router = useRouter();
+
+	const handleLogout = async (e: React.MouseEvent) => {
+		e.preventDefault();
+		await signOut({ redirect: false });
+		router.push("/login");
+		toast.success("Logout successfully");
+	};
 
 	return (
 		<header className="header navbar navbar-expand-lg bg-light navbar-sticky">
@@ -87,7 +98,11 @@ const Header = () => {
 											<hr className="dropdown-divider" />
 										</li>
 										<li>
-											<Link className="dropdown-item" href="#">
+											<Link
+												className="dropdown-item"
+												href="#"
+												onClick={handleLogout}
+											>
 												Logout
 											</Link>
 										</li>
@@ -151,7 +166,7 @@ const Header = () => {
 								<hr className="dropdown-divider" />
 							</li>
 							<li>
-								<Link className="dropdown-item" href="/api/auth/signout">
+								<Link className="dropdown-item" href="#" onClick={handleLogout}>
 									Logout
 								</Link>
 							</li>
