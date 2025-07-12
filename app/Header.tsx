@@ -1,6 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import defaultProfile from "./images/default_profile.svg";
+import ThemeToggleButton from "./components/ThemeToggleButton";
+import Link from "next/link";
 
 const Header = () => {
 	const user = {
@@ -9,9 +11,9 @@ const Header = () => {
 	return (
 		<header className="header navbar navbar-expand-lg bg-light navbar-sticky">
 			<div className="container px-3">
-				<a href="/" className="navbar-brand pe-3">
+				<Link href="/" className="navbar-brand pe-3">
 					Mailer
-				</a>
+				</Link>
 
 				<div id="navbarNav" className="offcanvas offcanvas-end">
 					<div className="offcanvas-header border-bottom">
@@ -27,24 +29,24 @@ const Header = () => {
 					<div className="offcanvas-body">
 						<ul className="navbar-nav me-auto mb-2 mb-lg-0">
 							<li className="nav-item">
-								<a href="docs/getting-started.html" className="nav-link">
+								<Link href="/" className="nav-link">
 									Home
-								</a>
+								</Link>
 							</li>
 							<li className="nav-item">
-								<a href="docs/getting-started.html" className="nav-link">
+								<Link href="/" className="nav-link">
 									About
-								</a>
+								</Link>
 							</li>
 							<li className="nav-item">
-								<a href="docs/getting-started.html" className="nav-link">
+								<Link href="/" className="nav-link">
 									Pricing
-								</a>
+								</Link>
 							</li>
 							<li className="nav-item">
-								<a href="docs/getting-started.html" className="nav-link">
+								<Link href="/" className="nav-link">
 									Contact
-								</a>
+								</Link>
 							</li>
 
 							{user?.isLoggedIn && (
@@ -65,22 +67,22 @@ const Header = () => {
 									</a>
 									<ul className="dropdown-menu">
 										<li>
-											<a className="dropdown-item" href="#">
+											<Link className="dropdown-item" href="#">
 												Dashboard
-											</a>
+											</Link>
 										</li>
 										<li>
-											<a className="dropdown-item" href="#">
+											<Link className="dropdown-item" href="#">
 												Settings
-											</a>
+											</Link>
 										</li>
 										<li>
 											<hr className="dropdown-divider" />
 										</li>
 										<li>
-											<a className="dropdown-item" href="#">
+											<Link className="dropdown-item" href="#">
 												Logout
-											</a>
+											</Link>
 										</li>
 									</ul>
 								</li>
@@ -90,14 +92,14 @@ const Header = () => {
 
 					{user?.isLoggedIn ? null : (
 						<div className="offcanvas-header border-top">
-							<a href="/register" className="btn btn-primary w-100">
+							<Link href="/register" className="btn btn-primary w-100">
 								&nbsp;Get Started
-							</a>
+							</Link>
 						</div>
 					)}
 				</div>
 
-				{/* <ThemeToggleButton /> */}
+				<ThemeToggleButton />
 
 				<button
 					type="button"
@@ -113,7 +115,7 @@ const Header = () => {
 
 				{user?.isLoggedIn ? (
 					<div className="dropdown d-none d-lg-inline-flex">
-						<a
+						<Link
 							href="#"
 							className="d-flex align-items-center"
 							data-bs-toggle="dropdown"
@@ -126,35 +128,35 @@ const Header = () => {
 								style={{ height: 30, width: 30, borderRadius: 20 }}
 							/>
 							<i className="bi bi-chevron-down ms-1" />
-						</a>
+						</Link>
 						<ul className="dropdown-menu dropdown-menu-end">
 							<li>
-								<a className="dropdown-item" href="#">
+								<Link className="dropdown-item" href="#">
 									Dashboard
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a className="dropdown-item" href="#">
+								<Link className="dropdown-item" href="#">
 									Settings
-								</a>
+								</Link>
 							</li>
 							<li>
 								<hr className="dropdown-divider" />
 							</li>
 							<li>
-								<a className="dropdown-item" href="#">
+								<Link className="dropdown-item" href="#">
 									Logout
-								</a>
+								</Link>
 							</li>
 						</ul>
 					</div>
 				) : (
-					<a
+					<Link
 						href="/register"
 						className="btn btn-primary btn-sm fs-sm rounded d-none d-lg-inline-flex"
 					>
 						&nbsp;Get Started
-					</a>
+					</Link>
 				)}
 			</div>
 		</header>

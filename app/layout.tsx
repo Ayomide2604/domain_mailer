@@ -6,6 +6,7 @@ import "./css/boxicons.css";
 import "./css/style.css";
 import BootstrapClient from "./BootstrapClient";
 import Header from "./Header";
+import BackToTop from "./components/BackToTop";
 
 export const metadata: Metadata = {
 	title: "Domain Mailer",
@@ -23,6 +24,7 @@ export default function RootLayout({
 				<BootstrapClient />
 				<Header />
 				{children}
+				<BackToTop />
 			</body>
 		</html>
 	);
