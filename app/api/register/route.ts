@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
 			},
 			{ status: 201 }
 		);
-	} catch (error: any) {
+	} catch (error: Error | unknown) {
 		if (error instanceof Error) {
 			return NextResponse.json({ error }, { status: 500 });
 		}

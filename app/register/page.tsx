@@ -30,9 +30,9 @@ const RegisterPage = () => {
 			if (response.status === 201)
 				toast.success("user registration successful");
 			router.push("/login");
-		} catch (error: any) {
-			if (error.response.status === 400) {
-				toast.error(error.response.data.message);
+		} catch (error: Error | unknown) {
+			if (error instanceof Error) {
+				toast.error(error.message);
 			} else {
 				toast.error("An Unexpected Error Occurred");
 			}
