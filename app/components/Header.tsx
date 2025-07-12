@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import defaultProfile from "./images/default_profile.svg";
-import ThemeToggleButton from "./components/ThemeToggleButton";
+import defaultProfile from "../images/default_profile.svg";
+import ThemeToggleButton from "./ThemeToggleButton";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 

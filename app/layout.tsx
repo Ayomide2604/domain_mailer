@@ -9,7 +9,8 @@ import "./css/boxicons.css";
 import "./css/style.css";
 // components
 import BootstrapClient from "./utils/BootstrapClient";
-import Header from "./Header";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
 import AuthProvider from "./Provider";
 
@@ -31,6 +32,7 @@ export default function RootLayout({
 					<BootstrapClient />
 					<Header />
 					{children}
+					<Footer />
 					<BackToTop />
 				</AuthProvider>
 			</body>
