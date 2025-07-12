@@ -1,13 +1,20 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import defaultProfile from "./images/default_profile.svg";
 import ThemeToggleButton from "./components/ThemeToggleButton";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+
+interface User {
+	name: string;
+	email: string;
+}
 
 const Header = () => {
-	const user = {
-		isLoggedIn: true,
-	};
+	const { data: session } = useSession();
+	const user = session?.user as User;
+
 	return (
 		<header className="header navbar navbar-expand-lg bg-light navbar-sticky">
 			<div className="container px-3">
@@ -49,7 +56,7 @@ const Header = () => {
 								</Link>
 							</li>
 
-							{user?.isLoggedIn && (
+							{user && (
 								<li className="nav-item dropdown d-lg-none mt-3">
 									<a
 										href="#"
@@ -90,7 +97,7 @@ const Header = () => {
 						</ul>
 					</div>
 
-					{user?.isLoggedIn ? null : (
+					{user ? null : (
 						<div className="offcanvas-header border-top">
 							<Link href="/register" className="btn btn-primary w-100">
 								&nbsp;Get Started
@@ -113,7 +120,7 @@ const Header = () => {
 					<span className="navbar-toggler-icon"></span>
 				</button>
 
-				{user?.isLoggedIn ? (
+				{user ? (
 					<div className="dropdown d-none d-lg-inline-flex">
 						<Link
 							href="#"
@@ -144,7 +151,7 @@ const Header = () => {
 								<hr className="dropdown-divider" />
 							</li>
 							<li>
-								<Link className="dropdown-item" href="#">
+								<Link className="dropdown-item" href="/api/auth/signout">
 									Logout
 								</Link>
 							</li>

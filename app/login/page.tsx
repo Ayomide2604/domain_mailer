@@ -1,6 +1,30 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+
 const LoginPage = () => {
+	const router = useRouter();
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+
+	const handleLogin = async (e: React.FormEvent) => {
+		e.preventDefault();
+		const response = await signIn("credentials", {
+			email,
+			password,
+			redirect: false,
+		});
+
+		if (response?.ok) {
+			router.push("/");
+		} else {
+			alert("Invalid email or password");
+		}
+	};
+
 	return (
 		<section className="position-relative h-100">
 			<div className="container d-flex flex-wrap justify-content-center justify-content-xl-start h-100">
@@ -21,7 +45,7 @@ const LoginPage = () => {
 						Don’t have an account yet?{" "}
 						<Link href="/register">Register here.</Link>
 					</p>
-					<form className="needs-validation mb-2" noValidate>
+					<form className="needs-validation mb-2" onSubmit={handleLogin}>
 						<div className="position-relative mb-4">
 							<label htmlFor="email" className="form-label fs-base">
 								Email
@@ -29,6 +53,8 @@ const LoginPage = () => {
 							<input
 								type="email"
 								id="email"
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
 								className="form-control form-control-lg"
 								required
 							/>
@@ -44,6 +70,8 @@ const LoginPage = () => {
 								<input
 									type="password"
 									id="password"
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
 									className="form-control form-control-lg"
 									required
 								/>

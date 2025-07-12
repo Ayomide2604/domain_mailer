@@ -7,6 +7,7 @@ import "./css/style.css";
 import BootstrapClient from "./BootstrapClient";
 import Header from "./Header";
 import BackToTop from "./components/BackToTop";
+import AuthProvider from "./Provider";
 
 export const metadata: Metadata = {
 	title: "Domain Mailer",
@@ -21,10 +22,12 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={``}>
-				<BootstrapClient />
-				<Header />
-				{children}
-				<BackToTop />
+				<AuthProvider>
+					<BootstrapClient />
+					<Header />
+					{children}
+					<BackToTop />
+				</AuthProvider>
 			</body>
 		</html>
 	);

@@ -1,8 +1,39 @@
 "use client";
+import axios from "axios";
 import Link from "next/link";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const RegisterPage = () => {
+	const router = useRouter();
+	const [firstName, setFirstName] = React.useState("");
+	const [lastName, setLastName] = React.useState("");
+	const [email, setEmail] = React.useState("");
+	const [password, setPassword] = React.useState("");
+	const [confirmPassword, setConfirmPassword] = React.useState("");
+
+	const handleRegister = async (e: React.FormEvent) => {
+		e.preventDefault();
+		if (password !== confirmPassword) {
+			alert("Passwords do not match");
+			return;
+		}
+
+		const data = {
+			name: `${firstName} ${lastName}`,
+			email,
+			password,
+		};
+		try {
+			const response = await axios.post("/api/register", data);
+			if (response.status === 201) {
+				router.push("/login");
+			}
+		} catch (error) {
+			console.error(error);
+			alert("Failed to register");
+		}
+	};
 	return (
 		<section className="position-relative h-100">
 			<div className="container d-flex flex-wrap justify-content-center justify-content-xl-start h-100">
@@ -22,17 +53,19 @@ const RegisterPage = () => {
 					<p className="text-center text-xl-start pb-3 mb-3">
 						Already have an account? <Link href="/login">Sign in here.</Link>
 					</p>
-					<form className="needs-validation" noValidate={false}>
+					<form className="needs-validation" onSubmit={handleRegister}>
 						<div className="row">
 							<div className="col-sm-6">
 								<div className="position-relative mb-4">
-									<label htmlFor="name" className="form-label fs-base">
-										Full name
+									<label htmlFor="firstName" className="form-label fs-base">
+										First name
 									</label>
 									<input
 										type="text"
-										id="name"
+										id="firstName"
 										className="form-control form-control-lg"
+										value={firstName}
+										onChange={(e) => setFirstName(e.target.value)}
 										required
 									/>
 									<div className="invalid-feedback position-absolute start-0 top-100">
@@ -42,6 +75,24 @@ const RegisterPage = () => {
 							</div>
 							<div className="col-sm-6">
 								<div className="position-relative mb-4">
+									<label htmlFor="lastName" className="form-label fs-base">
+										Last name
+									</label>
+									<input
+										type="text"
+										id="lastName"
+										className="form-control form-control-lg"
+										value={lastName}
+										onChange={(e) => setLastName(e.target.value)}
+										required
+									/>
+									<div className="invalid-feedback position-absolute start-0 top-100">
+										Please enter your name!
+									</div>
+								</div>
+							</div>
+							<div className="col-12">
+								<div className="position-relative mb-4">
 									<label htmlFor="email" className="form-label fs-base">
 										Email
 									</label>
@@ -49,6 +100,8 @@ const RegisterPage = () => {
 										type="email"
 										id="email"
 										className="form-control form-control-lg"
+										value={email}
+										onChange={(e) => setEmail(e.target.value)}
 										required
 									/>
 									<div className="invalid-feedback position-absolute start-0 top-100">
@@ -65,6 +118,8 @@ const RegisterPage = () => {
 										type="password"
 										id="password"
 										className="form-control form-control-lg"
+										value={password}
+										onChange={(e) => setPassword(e.target.value)}
 										required
 									/>
 									<label
@@ -91,6 +146,8 @@ const RegisterPage = () => {
 										type="password"
 										id="password-confirm"
 										className="form-control form-control-lg"
+										value={confirmPassword}
+										onChange={(e) => setConfirmPassword(e.target.value)}
 										required
 									/>
 									<label
@@ -118,10 +175,7 @@ const RegisterPage = () => {
 								</label>
 							</div>
 						</div>
-						<button
-							type="submit"
-							className="btn btn-primary shadow-primary btn-lg w-100"
-						>
+						<button className="btn btn-primary shadow-primary btn-lg w-100">
 							Sign up
 						</button>
 					</form>
