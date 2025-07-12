@@ -3,6 +3,7 @@ import axios from "axios";
 import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const RegisterPage = () => {
 	const router = useRouter();
@@ -27,15 +28,16 @@ const RegisterPage = () => {
 		try {
 			const response = await axios.post("/api/register", data);
 			if (response.status === 201) {
+				toast.success("user registration successful");
 				router.push("/login");
 			}
 		} catch (error) {
 			console.error(error);
-			alert("Failed to register");
+			toast.error("Failed to register");
 		}
 	};
 	return (
-		<section className="position-relative h-100">
+		<section className="position-relative h-100 mb-5">
 			<div className="container d-flex flex-wrap justify-content-center justify-content-xl-start h-100">
 				<div
 					className="w-100 align-self-end pt-1 pt-md-4 pb-4"

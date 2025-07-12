@@ -27,7 +27,7 @@ const LoginPage = () => {
 	};
 
 	return (
-		<section className="position-relative h-100">
+		<section className="position-relative h-100 mb-5">
 			<div className="container d-flex flex-wrap justify-content-center justify-content-xl-start h-100">
 				<div
 					className="w-100 align-self-end pt-1 pt-md-4 pb-4"
