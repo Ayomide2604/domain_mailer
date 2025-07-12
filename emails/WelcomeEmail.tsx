@@ -12,9 +12,10 @@ import {
 
 interface WelcomeEmailProps {
 	name: string;
+	verifyUrl: string;
 }
 
-export const WelcomeEmail = ({ name }: { name: string }) => (
+export const WelcomeEmail = ({ name, verifyUrl }: { name: string; verifyUrl: string }) => (
 	<Html>
 		<Head />
 		<Preview>Welcome to Domain Mailer, {name}!</Preview>
@@ -34,9 +35,14 @@ export const WelcomeEmail = ({ name }: { name: string }) => (
 					<Text style={paragraph}>
 						Thanks for signing up with Domain Mailer. We're thrilled to help you manage your domains and emails with ease.
 					</Text>
-					<Button style={button} href="https://yourdomain.com/dashboard">
-						Go to your dashboard
+					<Button style={button} href={verifyUrl}>
+						Verify your email
 					</Button>
+					<Text style={paragraph}>
+						If the button doesn't work, copy and paste this link into your browser:
+						<br />
+						<a href={verifyUrl}>{verifyUrl}</a>
+					</Text>
 					<Text style={paragraph}>
 						Need help getting started? Check out our <a href="https://yourdomain.com/docs">documentation</a> or <a href="mailto:support@yourdomain.com">contact support</a>.
 					</Text>

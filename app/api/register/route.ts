@@ -4,7 +4,6 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { sendEmail } from "@/app/utils/sendEmail";
 import { WelcomeEmail } from "@/emails/WelcomeEmail";
-import { toast } from "sonner";
 
 const schema = z.object({
 	name: z.string().min(3),
@@ -42,16 +41,35 @@ export async function POST(request: NextRequest) {
 				},
 			});
 
+			// Generate verification token
+			const crypto = await import("crypto");
+			const { addMinutes } = await import("date-fns");
+			const token = crypto.randomBytes(32).toString("hex");
+
+			await tx.verificationToken.create({
+				data: {
+					identifier: email,
+					token,
+					expires: addMinutes(new Date(), 30), // valid for 30 mins
+				},
+			});
+
+			// Construct verification URL
+			const verifyUrl = `${process.env.NEXTAUTH_URL}/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
+
 			const emailResult = await sendEmail({
 				from: "Admin <admin@chicagocrane.services>",
 				to: createdUser.email as string,
-				subject: "Welcome to Domain Mailer!",
+				subject: "Confirm your email",
 				EmailComponent: WelcomeEmail,
 				name: createdUser.name as string,
+				verifyUrl, // pass it to the email component
 			});
 
 			if (emailResult.error) {
-				throw new Error("Failed to send welcome email: " + emailResult.error);
+				throw new Error(
+					"Failed to send verification email: " + emailResult.error
+				);
 			}
 
 			return createdUser;
