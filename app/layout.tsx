@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
+import HeaderWrapper from "./components/HeaderWrapper";
 
 // styles
 import "./globals.css";
@@ -9,7 +10,7 @@ import "./css/boxicons.css";
 import "./css/style.css";
 // components
 import BootstrapClient from "./utils/BootstrapClient";
-import Header from "./components/Header";
+
 // import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
 import AuthProvider from "./Provider";
@@ -20,22 +21,23 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-	return (
-		<html lang="en">
-			<body className={``}>
-				<AuthProvider>
-					<Toaster position="top-right" richColors duration={1500} />
-					<BootstrapClient />
-					<Header />
-					{children}
-					{/* <Footer /> */}
-					<BackToTop />
-				</AuthProvider>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en">
+      <body className={``}>
+        <AuthProvider>
+          <Toaster position="top-right" richColors duration={1500} />
+          <BootstrapClient />
+          <HeaderWrapper />
+          {children}
+          {/* <Footer /> */}
+          <BackToTop />
+        </AuthProvider>
+      </body>
+    </html>
+  );
 }
+
