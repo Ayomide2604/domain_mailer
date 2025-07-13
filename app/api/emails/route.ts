@@ -11,12 +11,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // Support both string and array for 'to'
+    // Dynamically import React, ReactDOMServer, and OutboundEmail only on the server
+    const React = (await import("react"));
+    const ReactDOMServer = (await import("react-dom/server"));
+    const { default: OutboundEmail } = await import("../../../emails/OutboundEmail");
+
+    // Render the email body using the OutboundEmail template
+    const templatedHtml = ReactDOMServer.renderToStaticMarkup(
+      React.createElement(OutboundEmail, {
+        subject,
+        from,
+        to,
+        body: html,
+      })
+    );
+
     const data = await resend.emails.send({
       from,
       to,
       subject,
-      html,
+      html: templatedHtml,
     });
 
     return NextResponse.json({ success: true, data });
