@@ -12,6 +12,7 @@ export function useLogout() {
 		e.preventDefault();
 		await signOut({ redirect: false });
 		router.push("/login");
+		setLoading(false);
 		toast.success("Logout successfully");
 	};
 
