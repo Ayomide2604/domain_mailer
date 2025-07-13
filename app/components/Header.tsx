@@ -1,13 +1,12 @@
 "use client";
 import React, { useRef } from "react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 import Image from "next/image";
 import defaultProfile from "../images/default_profile.svg";
 import ThemeToggleButton from "./ThemeToggleButton";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { useLogout } from "../hooks/useLogout";
+import Loader from "./Loader";
 
 interface User {
 	name: string;
@@ -15,17 +14,14 @@ interface User {
 }
 
 const Header = () => {
+	const { logout, loading } = useLogout();
 	const { data: session } = useSession();
 	const user = session?.user as User;
-	const router = useRouter();
 	const offcanvasRef = useRef<HTMLDivElement>(null);
 
-	const handleLogout = async (e: React.MouseEvent) => {
-		e.preventDefault();
-		await signOut({ redirect: false });
-		router.push("/login");
-		toast.success("Logout successfully");
-	};
+	if (loading) {
+		return <Loader />;
+	}
 
 	return (
 		<header className="header navbar navbar-expand-lg bg-light navbar-sticky">
@@ -103,13 +99,7 @@ const Header = () => {
 											<hr className="dropdown-divider" />
 										</li>
 										<li data-bs-dismiss="offcanvas">
-											<Link
-												className="dropdown-item"
-												href="#"
-												onClick={(e) => {
-													handleLogout(e);
-												}}
-											>
+											<Link className="dropdown-item" href="#" onClick={logout}>
 												Logout
 											</Link>
 										</li>
@@ -176,7 +166,7 @@ const Header = () => {
 								<hr className="dropdown-divider" />
 							</li>
 							<li>
-								<Link className="dropdown-item" href="#" onClick={handleLogout}>
+								<Link className="dropdown-item" href="#" onClick={logout}>
 									Logout
 								</Link>
 							</li>

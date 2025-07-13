@@ -1,24 +1,22 @@
 "use client";
 import React from "react";
-import { signOut } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import defaultProfile from "../images/default_profile.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { useLogout } from "../hooks/useLogout";
+import Loader from "../components/Loader";
 
 const Sidebar = () => {
-	const router = useRouter();
+	const { logout, loading } = useLogout();
 	const pathname = usePathname();
 	const { data: session } = useSession();
 	const user = session?.user;
-	const handleLogout = async (e: React.MouseEvent) => {
-		e.preventDefault();
-		await signOut({ redirect: false });
-		router.push("/login");
-		toast.success("Logout successfully");
-	};
+
+	if (loading) {
+		return <Loader />;
+	}
 
 	return (
 		<aside className="col-lg-3 col-md-4 border-end pb-5 mt-n5">
@@ -119,7 +117,7 @@ const Sidebar = () => {
 
 						<Link
 							href="#"
-							onClick={handleLogout}
+							onClick={logout}
 							className="list-group-item list-group-item-action d-flex align-items-center"
 						>
 							<li
