@@ -89,8 +89,8 @@ const Sidebar = () => {
 						</Link>
 
 						<Link
-							href="/account/emails"
-							className={`list-group-item list-group-item-action d-flex align-items-center ${pathname === "/account/emails" && "active"}`}
+							href="/emails"
+							className={`list-group-item list-group-item-action d-flex align-items-center `}
 						>
 							<li
 								className="list-unstyled"
@@ -98,7 +98,7 @@ const Sidebar = () => {
 								data-bs-target="#account-menu"
 							>
 								<i className="bx bx-envelope fs-xl opacity-60 me-2" />
-								Email Campign
+								Email Campaign
 							</li>
 						</Link>
 						<Link
