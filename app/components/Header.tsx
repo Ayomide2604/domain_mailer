@@ -85,7 +85,7 @@ const Header = () => {
 									</a>
 									<ul className="dropdown-menu">
 										<li>
-											<Link className="dropdown-item" href="#">
+											<Link className="dropdown-item" href="/account">
 												Dashboard
 											</Link>
 										</li>
@@ -153,7 +153,7 @@ const Header = () => {
 						</Link>
 						<ul className="dropdown-menu dropdown-menu-end">
 							<li>
-								<Link className="dropdown-item" href="#">
+								<Link className="dropdown-item" href="/account">
 									Dashboard
 								</Link>
 							</li>
