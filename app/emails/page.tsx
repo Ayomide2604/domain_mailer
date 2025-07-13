@@ -121,6 +121,7 @@ export default function EmailPage() {
 	
 	
 	const [subject, setSubject] = useState("");
+const [replyTo, setReplyTo] = useState("");
 const [sending, setSending] = useState(false);
 const [sendProgress, setSendProgress] = useState(0);
 const [sendTotal, setSendTotal] = useState(0);
@@ -210,9 +211,10 @@ const [sendDone, setSendDone] = useState(false);
           to: recipients[i],
           subject,
           html: body,
+          replyTo,
         }),
       });
-    } catch (err) {
+    } catch {
       // Optionally handle error for individual emails here
     }
   }
@@ -226,6 +228,7 @@ const [sendDone, setSendDone] = useState(false);
     setRecipients([]);
     setSubject("");
     setBody("");
+    setReplyTo("");
     setRecipientInput("");
     setSendDone(false);
     setSendProgress(0);
@@ -311,6 +314,18 @@ return (
 						value={fromEmail}
 						onChange={(e) => setFromEmail(e.target.value)}
 						placeholder="From email"
+						autoComplete="off"
+					/>
+				</div>
+				<div className="mb-3">
+					<label htmlFor="replyTo" className="form-label">Reply-To (optional)</label>
+					<input
+						type="email"
+						id="replyTo"
+						className="form-control"
+						value={replyTo}
+						onChange={e => setReplyTo(e.target.value)}
+						placeholder="Reply-To email (optional)"
 						autoComplete="off"
 					/>
 				</div>
