@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import defaultProfile from "../images/default_profile.svg";
 import ThemeToggleButton from "./ThemeToggleButton";
@@ -18,6 +18,7 @@ const Header = () => {
 	const { data: session } = useSession();
 	const user = session?.user as User;
 	const router = useRouter();
+	const offcanvasRef = useRef<HTMLDivElement>(null);
 
 	const handleLogout = async (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -33,7 +34,11 @@ const Header = () => {
 					Mailer
 				</Link>
 
-				<div id="navbarNav" className="offcanvas offcanvas-end">
+				<div
+					ref={offcanvasRef}
+					id="navbarNav"
+					className="offcanvas offcanvas-end"
+				>
 					<div className="offcanvas-header border-bottom">
 						<h5 className="offcanvas-title">Menu</h5>
 						<button
@@ -46,22 +51,22 @@ const Header = () => {
 
 					<div className="offcanvas-body">
 						<ul className="navbar-nav me-auto mb-2 mb-lg-0">
-							<li className="nav-item">
+							<li className="nav-item" data-bs-dismiss="offcanvas">
 								<Link href="/" className="nav-link">
 									Home
 								</Link>
 							</li>
-							<li className="nav-item">
+							<li className="nav-item" data-bs-dismiss="offcanvas">
 								<Link href="/" className="nav-link">
 									About
 								</Link>
 							</li>
-							<li className="nav-item">
+							<li className="nav-item" data-bs-dismiss="offcanvas">
 								<Link href="/" className="nav-link">
 									Pricing
 								</Link>
 							</li>
-							<li className="nav-item">
+							<li className="nav-item" data-bs-dismiss="offcanvas">
 								<Link href="/contact" className="nav-link">
 									Contact
 								</Link>
@@ -84,12 +89,12 @@ const Header = () => {
 										<i className="bi bi-chevron-down ms-1" />
 									</a>
 									<ul className="dropdown-menu">
-										<li>
+										<li data-bs-dismiss="offcanvas">
 											<Link className="dropdown-item" href="/account">
 												Dashboard
 											</Link>
 										</li>
-										<li>
+										<li data-bs-dismiss="offcanvas">
 											<Link className="dropdown-item" href="#">
 												Settings
 											</Link>
@@ -97,11 +102,13 @@ const Header = () => {
 										<li>
 											<hr className="dropdown-divider" />
 										</li>
-										<li>
+										<li data-bs-dismiss="offcanvas">
 											<Link
 												className="dropdown-item"
 												href="#"
-												onClick={handleLogout}
+												onClick={(e) => {
+													handleLogout(e);
+												}}
 											>
 												Logout
 											</Link>
@@ -113,7 +120,10 @@ const Header = () => {
 					</div>
 
 					{user ? null : (
-						<div className="offcanvas-header border-top">
+						<div
+							className="offcanvas-header border-top"
+							data-bs-dismiss="offcanvas"
+						>
 							<Link href="/register" className="btn btn-primary w-100">
 								&nbsp;Get Started
 							</Link>

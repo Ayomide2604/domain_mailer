@@ -1,14 +1,16 @@
 "use client";
 import React from "react";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import defaultProfile from "../images/default_profile.svg";
 import Image from "next/image";
+import Link from "next/link";
 
 const Sidebar = () => {
 	const router = useRouter();
+	const pathname = usePathname();
 	const { data: session } = useSession();
 	const user = session?.user;
 	const handleLogout = async (e: React.MouseEvent) => {
@@ -61,29 +63,74 @@ const Sidebar = () => {
 						id="account-menu"
 						className="list-group list-group-flush collapse d-md-block"
 					>
-						<a
-							href="account-details.html"
-							className="list-group-item list-group-item-action d-flex align-items-center active"
+						<Link
+							href="/account"
+							className={`list-group-item list-group-item-action d-flex align-items-center ${pathname === "/account" && "active"}`}
 						>
-							<i className="bx bx-cog fs-xl opacity-60 me-2" />
-							Profile
-						</a>
-						<a
-							href="account-security.html"
-							className="list-group-item list-group-item-action d-flex align-items-center"
+							<li
+								className="list-unstyled"
+								data-bs-toggle="collapse"
+								data-bs-target="#account-menu"
+							>
+								<i className="bx bx-user fs-xl opacity-60 me-2" />
+								Dashboard
+							</li>
+						</Link>
+						<Link
+							href="/account/profile"
+							className={`list-group-item list-group-item-action d-flex align-items-center ${pathname === "/account/profile" && "active"}`}
 						>
-							<i className="bx bx-lock-alt fs-xl opacity-60 me-2" />
-							Security
-						</a>
+							<li
+								className="list-unstyled"
+								data-bs-toggle="collapse"
+								data-bs-target="#account-menu"
+							>
+								<i className="bx bx-user fs-xl opacity-60 me-2" />
+								Profile
+							</li>
+						</Link>
 
-						<a
+						<Link
+							href="/account/emails"
+							className={`list-group-item list-group-item-action d-flex align-items-center ${pathname === "/account/emails" && "active"}`}
+						>
+							<li
+								className="list-unstyled"
+								data-bs-toggle="collapse"
+								data-bs-target="#account-menu"
+							>
+								<i className="bx bx-envelope fs-xl opacity-60 me-2" />
+								Email Campign
+							</li>
+						</Link>
+						<Link
+							href="/account/security"
+							className={`list-group-item list-group-item-action d-flex align-items-center ${pathname === "/account/security" && "active"}`}
+						>
+							<li
+								className="list-unstyled"
+								data-bs-toggle="collapse"
+								data-bs-target="#account-menu"
+							>
+								<i className="bx bx-lock-alt fs-xl opacity-60 me-2" />
+								Security
+							</li>
+						</Link>
+
+						<Link
 							href="#"
 							onClick={handleLogout}
 							className="list-group-item list-group-item-action d-flex align-items-center"
 						>
-							<i className="bx bx-log-out fs-xl opacity-60 me-2" />
-							Sign Out
-						</a>
+							<li
+								className="list-unstyled"
+								data-bs-toggle="collapse"
+								data-bs-target="#account-menu"
+							>
+								<i className="bx bx-log-out fs-xl opacity-60 me-2" />
+								Sign Out
+							</li>
+						</Link>
 					</div>
 				</div>
 			</div>

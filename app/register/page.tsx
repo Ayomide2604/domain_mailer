@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Loader from "../components/Loader";
 
 const RegisterPage = () => {
 	const router = useRouter();
@@ -12,11 +13,14 @@ const RegisterPage = () => {
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
 	const [confirmPassword, setConfirmPassword] = React.useState("");
+	const [loading, setLoading] = React.useState(false);
 
 	const handleRegister = async (e: React.FormEvent) => {
+		setLoading(true);
 		e.preventDefault();
 		if (password !== confirmPassword) {
-			alert("Passwords do not match");
+			setLoading(false);
+			toast.error("Passwords do not match");
 			return;
 		}
 
@@ -27,17 +31,27 @@ const RegisterPage = () => {
 		};
 		try {
 			const response = await axios.post("/api/register", data);
-			if (response.status === 201)
+			if (response.status === 201) {
 				toast.success("user registration successful");
-			router.push("/login");
+				setLoading(false);
+				router.push("/login");
+			}
 		} catch (error: Error | unknown) {
 			if (error instanceof Error) {
+				setLoading(false);
 				toast.error(error.message);
 			} else {
+				setLoading(false);
 				toast.error("An Unexpected Error Occurred");
 			}
+		} finally {
+			setLoading(false);
 		}
 	};
+
+	if(loading){
+		return <Loader/>
+	}
 	return (
 		<section className="position-relative h-100 mb-5">
 			<div className="container d-flex flex-wrap justify-content-center justify-content-xl-start h-100">

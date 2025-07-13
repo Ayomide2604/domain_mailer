@@ -4,13 +4,16 @@ import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Loader from "../components/Loader";
 
 const LoginPage = () => {
 	const router = useRouter();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [loading, setLoading] = useState(false);
 
 	const handleLogin = async (e: React.FormEvent) => {
+		setLoading(true);
 		e.preventDefault();
 		const response = await signIn("credentials", {
 			email,
@@ -21,10 +24,15 @@ const LoginPage = () => {
 		if (response?.ok) {
 			toast.success("login successful");
 			router.push("/");
+			setLoading(false);
 		} else {
 			toast.error("Invalid email or password");
 		}
 	};
+
+	if (loading) {
+		return <Loader />;
+	}
 
 	return (
 		<section className="position-relative h-100 mb-5">
