@@ -121,6 +121,10 @@ export default function EmailPage() {
 	
 	
 	const [subject, setSubject] = useState("");
+const [sending, setSending] = useState(false);
+const [sendProgress, setSendProgress] = useState(0);
+const [sendTotal, setSendTotal] = useState(0);
+const [sendDone, setSendDone] = useState(false);
 	const [body, setBody] = useState("");
 	const [fromEmail, setFromEmail] = useState("");
 	
@@ -184,16 +188,88 @@ export default function EmailPage() {
 		if (csvInputRef.current) csvInputRef.current.value = "";
 	};
 
-	const handleSend = (e: React.FormEvent) => {
-		e.preventDefault();
-		alert(
-			`Campaign sent!\nRecipients: ${recipients.join(
-				", "
-			)}\n\nSubject: ${subject}\nFrom: ${fromEmail}\nBody: ${body}`
-		);
-	};
+	const handleSend = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!fromEmail || recipients.length === 0 || !subject || !body) {
+    alert("Please fill all fields and add at least one recipient.");
+    return;
+  }
+  setSending(true);
+  setSendProgress(0);
+  setSendTotal(recipients.length);
+  setSendDone(false);
 
-	return (
+  for (let i = 0; i < recipients.length; i++) {
+    setSendProgress(i + 1);
+    try {
+      await fetch("/api/emails/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from: fromEmail,
+          to: recipients[i],
+          subject,
+          html: body,
+        }),
+      });
+    } catch (err) {
+      // Optionally handle error for individual emails here
+    }
+  }
+
+  setSending(false);
+  setSendDone(true);
+
+  // Clear form after a short delay
+  setTimeout(() => {
+    setFromEmail("");
+    setRecipients([]);
+    setSubject("");
+    setBody("");
+    setRecipientInput("");
+    setSendDone(false);
+    setSendProgress(0);
+    setSendTotal(0);
+  }, 2000);
+};
+
+	if (sending) {
+  return (
+    <div style={{
+      height: "100vh", display: "flex", flexDirection: "column",
+      justifyContent: "center", alignItems: "center", fontSize: 24
+    }}>
+      <div className="spinner-border" role="status" style={{ width: 60, height: 60 }} />
+      <div style={{ marginTop: 24 }}>
+        Sending email {sendProgress}/{sendTotal}
+      </div>
+    </div>
+  );
+}
+
+if (sendDone) {
+  return (
+    <div style={{
+      height: "100vh", display: "flex", flexDirection: "column",
+      justifyContent: "center", alignItems: "center"
+    }}>
+      <div style={{
+        width: 80, height: 80, borderRadius: "50%", background: "#4BB543",
+        display: "flex", justifyContent: "center", alignItems: "center"
+      }}>
+        <svg width="48" height="48" viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="22" fill="#4BB543" />
+          <polyline points="14,26 22,34 34,18" fill="none" stroke="#fff" strokeWidth="4" />
+        </svg>
+      </div>
+      <div style={{ marginTop: 24, fontSize: 24, color: "#4BB543" }}>
+        All emails sent!
+      </div>
+    </div>
+  );
+}
+
+return (
 		<div
 			className="d-flex vh-100 bg-light text-dark"
 			style={{ fontFamily: "Manrope, sans-serif" }}
