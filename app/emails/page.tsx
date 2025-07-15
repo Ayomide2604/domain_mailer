@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import "../css/style.css";
 import SlidingPreviewPane from "./SlidingPreviewPane";
 import RecipientInput from "./RecipientInput";
@@ -23,14 +23,6 @@ function EmailPage() {
 	const [recipients, setRecipients] = useState<string[]>([]);
 	const [recipientInput, setRecipientInput] = useState("");
 	const [showPreview, setShowPreview] = useState(true);
-	const [isMobile, setIsMobile] = useState(false);
-
-	useEffect(() => {
-		const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-		checkMobile();
-		window.addEventListener("resize", checkMobile);
-		return () => window.removeEventListener("resize", checkMobile);
-	}, []);
 
 	const validateEmail = (email: string) =>
 		/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -130,21 +122,8 @@ function EmailPage() {
 	}
 
 	return (
-		<div
-			className="main-layout bg-light text-dark"
-		>
-			{isMobile && !showPreview && (
-				<button
-					className="fab-open-pane"
-					onClick={() => setShowPreview(true)}
-					title="Show Preview Pane"
-				>
-					<span style={{fontSize: 28, lineHeight: 1}}>&#9776;</span>
-				</button>
-			)}
-			<main
-				className="main-content bg-white"
-			>
+		<div className="main-layout bg-light text-dark">
+			<main className="main-content bg-white">
 				<h4 className="mb-4 fw-bold">Create Campaign</h4>
 				<div className="d-flex justify-content-end align-items-center mb-2">
 					<div className="form-check form-switch">
