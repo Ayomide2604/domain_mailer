@@ -6,7 +6,7 @@ interface RecipientInputProps {
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onPaste: (e: React.ClipboardEvent<HTMLInputElement>) => void;
   onCsvUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  csvInputRef: RefObject<HTMLInputElement>;
+  csvInputRef: RefObject<HTMLInputElement | null>;
 }
 
 const RecipientInput: React.FC<RecipientInputProps> = ({
