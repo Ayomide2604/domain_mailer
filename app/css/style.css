@@ -1,4 +1,213 @@
 @charset "UTF-8";
+
+/* --- Responsive Emailer App Custom Styles --- */
+
+.main-layout {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Manrope', sans-serif;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  width: 100%;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  min-height: 100vh;
+  transition: border-radius 0.2s;
+}
+
+.sliding-pane {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 400px;
+  background: #fff;
+  box-shadow: -2px 0 16px rgba(0,0,0,0.12);
+  z-index: 1050;
+  transform: translateX(0);
+  transition: transform 0.35s cubic-bezier(.4,0,.2,1), width 0.2s;
+  display: flex;
+  flex-direction: column;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+/* --- MOBILE STYLES --- */
+@media (max-width: 768px) {
+  .main-layout {
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+  .main-content {
+    border-radius: 0 !important;
+    padding: 1rem;
+    min-height: auto;
+  }
+  .sliding-pane {
+    width: 100vw !important;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    height: 80dvh;
+    min-height: 320px;
+    max-height: 100dvh;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.12);
+    transform: translateY(0);
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1), height 0.2s;
+    animation: slideUpPane 0.4s cubic-bezier(.4,0,.2,1);
+  }
+  .sliding-pane .d-flex {
+    flex-direction: row;
+    padding: 1rem 0.5rem;
+  }
+  .sliding-pane button {
+    font-size: 1.2rem;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 12px;
+  }
+  .sliding-pane .flex-grow-1 {
+    padding: 1rem !important;
+  }
+  .card, .form-control, .btn {
+    font-size: 1rem !important;
+    border-radius: 12px !important;
+  }
+  .card {
+    padding: 0.5rem;
+  }
+  .form-control, textarea {
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
+  }
+  .btn {
+    padding: 0.75rem 1.2rem;
+    font-size: 1.1rem;
+  }
+  label, h4, h5, h6 {
+    font-size: 1.1rem !important;
+  }
+}
+
+@keyframes slideUpPane {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* --- End Responsive Emailer App Custom Styles --- */
+
+/* FAB for mobile preview pane toggle */
+.fab-open-pane {
+  display: none;
+}
+
+/* --- Collapsible Sidebar Styles --- */
+.sidebar-main.mobile-sidebar {
+  position: fixed !important;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 80vw;
+  max-width: 320px;
+  min-width: 220px;
+  height: 100dvh;
+  z-index: 1201;
+  background: #f8f9fa;
+  box-shadow: 2px 0 16px rgba(0,0,0,0.12);
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+  border-right: none !important;
+}
+.sidebar-main.mobile-sidebar.open {
+  transform: translateX(0);
+}
+.sidebar-backdrop {
+  display: none;
+}
+@media (max-width: 768px) {
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.18);
+    z-index: 1200;
+  }
+  .fab-open-sidebar {
+    display: flex;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1300;
+    background: #6366f1;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.18);
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .fab-open-sidebar:active {
+    background: #4f46e5;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.22);
+  }
+}
+/* --- End Collapsible Sidebar Styles --- */
+
+@media (max-width: 768px) {
+  .fab-open-pane {
+    display: block;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1200;
+    background: #6366f1;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.18);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fab-open-pane:active {
+    background: #4f46e5;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.22);
+  }
+  .sliding-pane-backdrop {
+    display: block;
+  }
+}
+
+.sliding-pane-backdrop {
+  display: none;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap");
 .text-gradient-primary {
     background: linear-gradient(90deg, #6366f1, #8b5cf6, #d946ef);
