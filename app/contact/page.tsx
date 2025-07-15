@@ -16,28 +16,32 @@ const ContactPage = () => {
 								</div>
 								<div className="ps-3 ps-sm-4">
 									<h2 className="h4 pb-1 mb-2">Email Domain Mailer</h2>
-<p className="mb-2">
-    Reach out to the Domain Mailer team for any questions, partnership opportunities, or product support. We respond quickly!
-</p>
-<div className="btn btn-link btn-lg px-0">
-    Message Domain Mailer
-    <i className="bx bx-right-arrow-alt lead ms-2" />
-</div>
+									<p className="mb-2">
+										Reach out to the Domain Mailer team for any questions,
+										partnership opportunities, or product support. We respond
+										quickly!
+									</p>
+									<div className="btn btn-link btn-lg px-0">
+										Message Domain Mailer
+										<i className="bx bx-right-arrow-alt lead ms-2" />
+									</div>
 								</div>
 							</div>
 							<div className="d-flex align-items-start">
 								<div className="bg-light text-primary rounded-circle flex-shrink-0 fs-3 lh-1 p-3">
-									<i className="bx bx-group" />
+									<i className="bx bx-chat" />
 								</div>
 								<div className="ps-3 ps-sm-4">
-									<h2 className="h4 pb-1 mb-2">Careers at Domain Mailer</h2>
-<p className="mb-2">
-    Interested in joining the Domain Mailer team? We’re always looking for talented individuals passionate about email technology and communication.
-</p>
-<div className="btn btn-link btn-lg px-0">
-    Apply to Domain Mailer
-    <i className="bx bx-right-arrow-alt lead ms-2" />
-</div>
+									<h2 className="h4 pb-1 mb-2">Chat with Domain Mailer</h2>
+									<p className="mb-2">
+										Chat with the Domain Mailer team for any questions,
+										partnership opportunities, or product support. We respond
+										quickly!
+									</p>
+									<div className="btn btn-link btn-lg px-0">
+										Chat with Domain Mailer
+										<i className="bx bx-right-arrow-alt lead ms-2" />
+									</div>
 								</div>
 							</div>
 						</div>

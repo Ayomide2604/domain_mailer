@@ -11,22 +11,45 @@ const LoginPage = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
 
 	const handleLogin = async (e: React.FormEvent) => {
-		setLoading(true);
 		e.preventDefault();
-		const response = await signIn("credentials", {
-			email,
-			password,
-			redirect: false,
-		});
+		setLoading(true);
 
-		if (response?.ok) {
-			toast.success("login successful");
-			router.push("/");
+		const res = await fetch("/api/login", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				email: email.toLowerCase(),
+				password,
+			}),
+		});
+		const data = await res.json();
+
+		if (!res.ok) {
 			setLoading(false);
+
+			if (data?.message) {
+				toast.error(data.message);
+			} else {
+				toast.error("Login failed, An Unexpected Error Occurred");
+			}
 		} else {
-			toast.error("Invalid email or password");
+			// If it passes the checks we can sign in
+			const response = await signIn("credentials", {
+				email: email.toLowerCase(),
+				password,
+				redirect: false,
+			});
+			if (response?.ok) {
+				router.push("/");
+				toast.success("Login successful");
+				setLoading(false);
+			} else {
+				toast.error("Login failed, An Unexpected Error Occurred");
+				setLoading(false);
+			}
 		}
 	};
 
@@ -77,7 +100,7 @@ const LoginPage = () => {
 							</label>
 							<div className="password-toggle">
 								<input
-									type="password"
+									type={showPassword ? "text" : "password"}
 									id="password"
 									value={password}
 									onChange={(e) => setPassword(e.target.value)}
@@ -89,7 +112,13 @@ const LoginPage = () => {
 									aria-label="Show/hide password"
 								>
 									<input className="password-toggle-check" type="checkbox" />
-									<span className="password-toggle-indicator"></span>
+									<span onClick={() => setShowPassword(!showPassword)}>
+										{showPassword ? (
+											<i className="bi-eye-slash" />
+										) : (
+											<i className="bi-eye" />
+										)}
+									</span>
 								</label>
 								<div className="invalid-feedback position-absolute start-0 top-100">
 									Please enter your password!
